@@ -1,12 +1,12 @@
 <?php
 
-namespace VendorName\Skeleton;
+namespace TheRealMkadmi\LaravelAcr;
 
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use VendorName\Skeleton\Commands\SkeletonCommand;
+use TheRealMkadmi\LaravelAcr\Commands\LaravelAcrCommand;
 
-class SkeletonServiceProvider extends PackageServiceProvider
+class LaravelAcrServiceProvider extends PackageServiceProvider
 {
     public function configurePackage(Package $package): void
     {
@@ -16,10 +16,10 @@ class SkeletonServiceProvider extends PackageServiceProvider
          * More info: https://github.com/spatie/laravel-package-tools
          */
         $package
-            ->name('skeleton')
+            ->name('laravel-acr')
             ->hasConfigFile()
             ->hasViews()
-            ->hasMigration('create_migration_table_name_table')
-            ->hasCommand(SkeletonCommand::class);
+            ->hasMigration('create_laravel_acr_table')
+            ->hasCommand(LaravelAcrCommand::class);
     }
 }

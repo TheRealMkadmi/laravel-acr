@@ -1,12 +1,12 @@
 <?php
 
-namespace VendorName\Skeleton\Commands;
+namespace TheRealMkadmi\LaravelAcr\Commands;
 
 use Illuminate\Console\Command;
 
-class SkeletonCommand extends Command
+class LaravelAcrCommand extends Command
 {
-    public $signature = 'skeleton';
+    public $signature = 'laravel-acr';
 
     public $description = 'My command';
 
