@@ -8,13 +8,11 @@ use GuzzleHttp\Exception\GuzzleException;
 class AzureCommunicationClient
 {
     protected Client $client;
+
     protected array $config;
 
     /**
      * Create a new AzureCommunicationClient instance.
-     *
-     * @param Client $client
-     * @param array  $config
      */
     public function __construct(Client $client, array $config)
     {
@@ -25,8 +23,7 @@ class AzureCommunicationClient
     /**
      * Sends an email using Azure Communication Services.
      *
-     * @param array $emailData The email payload data.
-     *
+     * @param  array  $emailData  The email payload data.
      * @return array The decoded JSON response.
      *
      * @throws \Exception If an error occurs or an invalid response is received.
@@ -35,20 +32,20 @@ class AzureCommunicationClient
     {
         $endpoint = rtrim($this->config['endpoint'], '/');
         $apiVersion = $this->config['api_version'] ?? '2023-01-15';
-        $url = $endpoint . '/emails:send?api-version=' . $apiVersion;
+        $url = $endpoint.'/emails:send?api-version='.$apiVersion;
 
         $headers = [
-            'Content-Type'  => 'application/json',
-            'Authorization' => 'Bearer ' . $this->config['access_key'],
+            'Content-Type' => 'application/json',
+            'Authorization' => 'Bearer '.$this->config['access_key'],
         ];
 
         try {
             $response = $this->client->post($url, [
                 'headers' => $headers,
-                'json'    => $emailData,
+                'json' => $emailData,
             ]);
 
-            $body = (string)$response->getBody();
+            $body = (string) $response->getBody();
             $decoded = json_decode($body, true);
 
             if (json_last_error() !== JSON_ERROR_NONE) {
@@ -57,7 +54,7 @@ class AzureCommunicationClient
 
             return $decoded;
         } catch (GuzzleException $e) {
-            throw new \Exception('Error sending email via Azure Communication Services: ' . $e->getMessage());
+            throw new \Exception('Error sending email via Azure Communication Services: '.$e->getMessage());
         }
     }
 }
