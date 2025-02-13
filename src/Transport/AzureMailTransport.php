@@ -2,12 +2,12 @@
 
 namespace TheRealMkadmi\LaravelAcr\Transport;
 
-use Symfony\Component\Mailer\Transport\AbstractTransport;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Mailer\SentMessage;
+use Symfony\Component\Mailer\Transport\AbstractTransport;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Mime\MessageConverter;
 use TheRealMkadmi\LaravelAcr\AzureCommunicationClient;
-use Psr\Log\LoggerInterface;
 
 class AzureMailTransport extends AbstractTransport
 {
@@ -15,9 +15,6 @@ class AzureMailTransport extends AbstractTransport
 
     /**
      * Create a new AzureMailTransport instance.
-     *
-     * @param AzureCommunicationClient $client
-     * @param LoggerInterface|null     $logger
      */
     public function __construct(AzureCommunicationClient $client, ?LoggerInterface $logger = null)
     {
@@ -28,9 +25,7 @@ class AzureMailTransport extends AbstractTransport
     /**
      * Sends the email using Azure Communication Services.
      *
-     * @param SentMessage $message
      *
-     * @return void
      *
      * @throws \Exception
      */
@@ -46,15 +41,11 @@ class AzureMailTransport extends AbstractTransport
         $this->client->sendEmail($emailData);
 
         // Optionally, set the message ID for tracking.
-        $message->setMessageId('<azure-' . uniqid() . '@example.com>');
+        $message->setMessageId('<azure-'.uniqid().'@example.com>');
     }
 
     /**
      * Prepare the email payload from a Symfony Email instance.
-     *
-     * @param Email $email
-     *
-     * @return array
      */
     protected function prepareEmailData(Email $email): array
     {
@@ -74,26 +65,26 @@ class AzureMailTransport extends AbstractTransport
         $htmlBody = $email->getHtmlBody();
         $plainTextBody = $email->getTextBody();
 
-        if (!$plainTextBody && $htmlBody) {
+        if (! $plainTextBody && $htmlBody) {
             $plainTextBody = strip_tags($htmlBody);
         }
 
         $emailData = [
             'senderAddress' => $from,
-            'content'       => [
-                'subject'   => $subject,
-                'html'      => $htmlBody,
+            'content' => [
+                'subject' => $subject,
+                'html' => $htmlBody,
                 'plainText' => $plainTextBody,
             ],
-            'recipients'    => [
+            'recipients' => [
                 'to' => $to,
             ],
         ];
 
-        if (!empty($cc)) {
+        if (! empty($cc)) {
             $emailData['recipients']['cc'] = $cc;
         }
-        if (!empty($bcc)) {
+        if (! empty($bcc)) {
             $emailData['recipients']['bcc'] = $bcc;
         }
 
@@ -102,10 +93,6 @@ class AzureMailTransport extends AbstractTransport
 
     /**
      * Format an iterable of addresses into the expected Azure format.
-     *
-     * @param iterable|null $addresses
-     *
-     * @return array
      */
     protected function formatAddressArray(?iterable $addresses): array
     {
@@ -114,19 +101,18 @@ class AzureMailTransport extends AbstractTransport
             foreach ($addresses as $address) {
                 if ($address instanceof \Symfony\Component\Mime\Address) {
                     $formatted[] = [
-                        'address'     => $address->getAddress(),
+                        'address' => $address->getAddress(),
                         'displayName' => $address->getName(),
                     ];
                 }
             }
         }
+
         return $formatted;
     }
 
     /**
      * Return a string representation of the transport.
-     *
-     * @return string
      */
     public function __toString(): string
     {

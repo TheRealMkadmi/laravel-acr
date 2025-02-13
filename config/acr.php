@@ -13,8 +13,8 @@ return [
     |
     */
 
-    'endpoint'    => env('AZURE_COMMUNICATION_ENDPOINT', 'https://your-resource.communication.azure.com'),
-    'access_key'  => env('AZURE_COMMUNICATION_ACCESS_KEY', 'your-access-key'),
-    'sender'      => env('AZURE_COMMUNICATION_SENDER', 'sender@example.com'),
+    'endpoint' => env('AZURE_COMMUNICATION_ENDPOINT', 'https://your-resource.communication.azure.com'),
+    'access_key' => env('AZURE_COMMUNICATION_ACCESS_KEY', 'your-access-key'),
+    'sender' => env('AZURE_COMMUNICATION_SENDER', 'sender@example.com'),
     'api_version' => env('AZURE_COMMUNICATION_API_VERSION', '2023-01-15'),
 ];
