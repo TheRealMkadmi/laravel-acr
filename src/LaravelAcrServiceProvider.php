@@ -26,11 +26,8 @@ class LaravelAcrServiceProvider extends PackageServiceProvider
          */
         $package
             ->name('laravel-acr')
-            ->hasConfigFile()
-            ->hasViews()
-            ->hasMigration('create_laravel_acr_table')
-            ->hasCommand(LaravelAcrCommand::class);
-    }
+            ->hasConfigFile();
+        }
 
     public function boot()
     {
